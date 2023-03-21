@@ -3,11 +3,12 @@ import { type RouterOutputs } from "~/utils/api";
 
 type Project = RouterOutputs["project"]["getAll"][0];
 
-const ProjectModal = (project: Project) => {
+const ProjectModal = ({ project }: { project: Project }) => {
   const modal = useModal();
 
   const handleSubmit = () => {
-    return modal.resolve(project);
+    modal.resolve({ id: project.id, name: "Test Project 5" });
+    void modal.hide();
   };
 
   return (

@@ -18,9 +18,15 @@ const ProjectHeader = () => {
       },
     });
 
-  const createTopic = api.project.create.useMutation({
+  const createProject = api.project.create.useMutation({
     onSuccess: (d) => {
       setSelectedProject(d);
+      void refetchProjects();
+    },
+  });
+
+  const updateProject = api.project.update.useMutation({
+    onSuccess: () => {
       void refetchProjects();
     },
   });
@@ -60,14 +66,25 @@ const ProjectHeader = () => {
             className="dropdown-content menu rounded-box menu-compact mt-3 w-52 bg-base-100 p-2 shadow"
           >
             <li>
-              <a>Edit project</a>
+              <button
+                type="button"
+                onClick={() =>
+                  void NiceModal.show("project-modal", {
+                    project: selectedProject,
+                  }).then((updatedProject) => {
+                    updateProject.mutate(updatedProject);
+                  })
+                }
+              >
+                Edit project
+              </button>
             </li>
             <li>
               <button
                 type="button"
                 onClick={() =>
                   void NiceModal.show("project-modal").then((newProject) => {
-                    createTopic.mutate(newProject);
+                    createProject.mutate(newProject);
                   })
                 }
               >

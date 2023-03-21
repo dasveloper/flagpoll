@@ -21,4 +21,17 @@ export const projectRouter = createTRPCRouter({
         },
       });
     }),
+
+  update: protectedProcedure
+    .input(z.object({ name: z.string(), id: z.string() }))
+    .mutation(({ ctx, input }) => {
+      return ctx.prisma.project.update({
+        data: {
+          name: input.name,
+        },
+        where: {
+          id: input.id,
+        },
+      });
+    }),
 });
