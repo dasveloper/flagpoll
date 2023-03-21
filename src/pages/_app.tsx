@@ -5,14 +5,20 @@ import { SessionProvider } from "next-auth/react";
 import { api } from "~/utils/api";
 
 import "~/styles/globals.css";
+import NiceModal from "@ebay/nice-modal-react";
+import ProjectModal from "~/components/ProjectModal";
 
 const MyApp: AppType<{ session: Session | null }> = ({
   Component,
   pageProps: { session, ...pageProps },
 }) => {
+  NiceModal.register("project-modal", ProjectModal);
+
   return (
     <SessionProvider session={session}>
-      <Component {...pageProps} />
+      <NiceModal.Provider>
+        <Component {...pageProps} />
+      </NiceModal.Provider>
     </SessionProvider>
   );
 };

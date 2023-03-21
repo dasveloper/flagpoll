@@ -13,8 +13,9 @@ const Home: NextPage = () => {
         <link rel="icon" href="/favicon.ico" />
       </Head>
       <main className="min-h-screen bg-base-100">
-        <Nav />
-        <div className="mx-auto max-w-4xl py-8 px-4">
+        <div className="mx-auto max-w-6xl px-4">
+          <Nav />
+          <div className="my-6" />
           <ProjectHeader />
           <div className="my-6" />
           <FlagList />

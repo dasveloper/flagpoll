@@ -5,7 +5,7 @@ const Nav = () => {
   const { data: sessionData } = useSession();
 
   return (
-    <nav className="container navbar mx-auto">
+    <nav className="navbar border-b border-base-200">
       <div className="flex-1">
         <a className="cursor-pointer text-xl normal-case">FLAGPOLL</a>
       </div>
