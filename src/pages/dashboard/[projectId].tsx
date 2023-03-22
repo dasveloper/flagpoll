@@ -3,8 +3,28 @@ import Head from "next/head";
 import Nav from "~/components/Nav";
 import FlagList from "~/components/FlagList";
 import ProjectHeader from "~/components/ProjectHeader";
-
+import { api } from "~/utils/api";
+import { useRouter } from "next/router";
+import { useEffect } from "react";
+import Loader from "~/components/Loader";
 const ProjectPage: NextPage = () => {
+  const router = useRouter();
+  const { projectId } = router.query;
+
+  const { data: project, isLoading: projectLoading } =
+    api.project.getById.useQuery(projectId?.toString() ?? "", {
+      enabled: typeof projectId === "string",
+    });
+
+  useEffect(() => {
+    // Redirect if project not found
+    if (!project && !projectLoading) {
+      void router.push("/dashboard");
+    }
+  }, [projectLoading, project, router]);
+
+  if (projectLoading || !project) return <Loader />;
+
   return (
     <>
       <Head>

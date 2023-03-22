@@ -6,7 +6,7 @@ import { useRouter } from "next/router";
 import { useEffect } from "react";
 import Loader from "~/components/Loader";
 
-const Home: NextPage = () => {
+const Dashboard: NextPage = () => {
   const router = useRouter();
 
   const { data: projects, isLoading: projectsLoading } =
@@ -15,7 +15,7 @@ const Home: NextPage = () => {
   useEffect(() => {
     // Redirect to first project if exists
     if (projects?.[0]) {
-      void router.push(`/projects/clfitcpi100073sxd3dq1r19a`);
+      void router.push(`/dashboard/${projects[0].id}`);
     }
   }, [projects, router]);
 
@@ -39,4 +39,4 @@ const Home: NextPage = () => {
   );
 };
 
-export default Home;
+export default Dashboard;

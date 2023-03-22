@@ -39,7 +39,7 @@ const ProjectHeader = () => {
           value={currentProject?.id}
           defaultValue="0"
           onChange={(e) => {
-            void router.push(`/projects/${e.target.value}`);
+            void router.push(`/dashboard/${e.target.value}`);
           }}
         >
           <option disabled value="0">
