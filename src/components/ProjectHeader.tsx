@@ -1,26 +1,25 @@
 import { EllipsisVerticalIcon } from "@heroicons/react/20/solid";
-import { useSession } from "next-auth/react";
 import { api, type RouterOutputs } from "~/utils/api";
-import { useState } from "react";
+import { useMemo } from "react";
 import NiceModal from "@ebay/nice-modal-react";
+import { useRouter } from "next/router";
 
 type Project = RouterOutputs["project"]["getAll"][0];
 
 const ProjectHeader = () => {
-  const [selectedProject, setSelectedProject] = useState<Project | null>(null);
-  const { data: sessionData } = useSession();
+  const router = useRouter();
+  const { projectId } = router.query;
 
   const { data: projects, refetch: refetchProjects } =
-    api.project.getAll.useQuery(undefined, {
-      enabled: sessionData?.user !== undefined,
-      onSuccess: (data) => {
-        setSelectedProject(selectedProject ?? data[0] ?? null);
-      },
-    });
+    api.project.getAll.useQuery();
+
+  const currentProject: Project | null = useMemo(
+    () => projects?.find((project) => project.id === projectId) ?? null,
+    [projects, projectId]
+  );
 
   const createProject = api.project.create.useMutation({
-    onSuccess: (d) => {
-      setSelectedProject(d);
+    onSuccess: () => {
       void refetchProjects();
     },
   });
@@ -37,14 +36,10 @@ const ProjectHeader = () => {
         <select
           className="select-bordered select flex-1 py-0"
           disabled={projects?.length === 0}
-          value={selectedProject?.id ?? 0}
+          value={currentProject?.id}
+          defaultValue="0"
           onChange={(e) => {
-            const targetProject = projects?.find(
-              (project: Project) => project.id === e.target.value
-            );
-            if (targetProject) {
-              setSelectedProject(targetProject);
-            }
+            void router.push(`/projects/${e.target.value}`);
           }}
         >
           <option disabled value="0">
@@ -58,7 +53,7 @@ const ProjectHeader = () => {
         </select>
 
         <div className="dropdown-end dropdown">
-          <button className="btn-ghost btn-square btn-sm btn">
+          <button className="btn-ghost btn-sm btn-square btn">
             <EllipsisVerticalIcon className="inline-block h-5 w-5 stroke-current" />
           </button>
           <ul
@@ -68,9 +63,10 @@ const ProjectHeader = () => {
             <li>
               <button
                 type="button"
+                disabled={currentProject == null}
                 onClick={() =>
                   void NiceModal.show("project-modal", {
-                    project: selectedProject,
+                    project: currentProject,
                   }).then((updatedProject) => {
                     updateProject.mutate(updatedProject);
                   })

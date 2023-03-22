@@ -11,6 +11,16 @@ export const projectRouter = createTRPCRouter({
     });
   }),
 
+  getById: protectedProcedure
+    .input(z.object({ id: z.string() }))
+    .query(({ ctx, input }) => {
+      return ctx.prisma.project.findFirst({
+        where: {
+          id: input.id,
+        },
+      });
+    }),
+
   create: protectedProcedure
     .input(z.object({ name: z.string() }))
     .mutation(({ ctx, input }) => {

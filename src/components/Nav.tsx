@@ -10,6 +10,15 @@ const Nav = () => {
         <a className="cursor-pointer text-xl normal-case">FLAGPOLL</a>
       </div>
       <div className="flex-none">
+        {!sessionData?.user && (
+          <button
+            type="button"
+            onClick={() => void signIn()}
+            className="btn-primary btn-sm btn"
+          >
+            Sign in
+          </button>
+        )}
         {sessionData?.user && (
           <div className="dropdown-end dropdown">
             <label tabIndex={0} className="btn-ghost btn-circle avatar btn">
@@ -33,7 +42,9 @@ const Nav = () => {
                 <a>Settings</a>
               </li>
               <li>
-                <a>Logout</a>
+                <button type="button" onClick={() => void signOut()}>
+                  Sign out
+                </button>
               </li>
             </ul>
           </div>
