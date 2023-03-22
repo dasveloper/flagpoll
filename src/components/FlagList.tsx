@@ -1,18 +1,13 @@
 import { api } from "~/utils/api";
+import NiceModal from "@ebay/nice-modal-react";
 
 const FlagList = ({ projectId }: { projectId: string }) => {
-  const { data: flags, refetch: refetchFlags } = api.flag.getAll.useQuery(
+  const { data: flags } = api.flag.getAll.useQuery(
     { projectId },
     {
       enabled: Boolean(projectId),
     }
   );
-
-  const updateFlag = api.project.update.useMutation({
-    onSuccess: () => {
-      void refetchFlags();
-    },
-  });
 
   return (
     <div className="w-full overflow-x-auto rounded-lg border border-base-200">
@@ -44,7 +39,17 @@ const FlagList = ({ projectId }: { projectId: string }) => {
                   {flag.description}
                 </td>
                 <td className="w-0 whitespace-nowrap text-right">
-                  <button className="btn-outline btn-sm btn">edit</button>
+                  <button
+                    className="btn-outline btn-sm btn"
+                    onClick={() =>
+                      void NiceModal.show("flag-modal", {
+                        flag,
+                        projectId,
+                      })
+                    }
+                  >
+                    edit
+                  </button>
                 </td>
               </tr>
             ))}

@@ -9,33 +9,12 @@ type Project = RouterOutputs["project"]["getAll"][0];
 const ProjectHeader = ({ projectId }: { projectId: string }) => {
   const router = useRouter();
 
-  const context = api.useContext();
-
-  const { data: projects, refetch: refetchProjects } =
-    api.project.getAll.useQuery();
+  const { data: projects } = api.project.getAll.useQuery();
 
   const currentProject: Project | null = useMemo(
     () => projects?.find((project) => project.id === projectId) ?? null,
     [projects, projectId]
   );
-
-  const createProject = api.project.create.useMutation({
-    onSuccess: () => {
-      void refetchProjects();
-    },
-  });
-
-  const updateProject = api.project.update.useMutation({
-    onSuccess: () => {
-      void refetchProjects();
-    },
-  });
-
-  const createFlag = api.flag.create.useMutation({
-    onSuccess: () => {
-      void context.flag.getAll.invalidate();
-    },
-  });
 
   return (
     <div className="sm:flex sm:items-center sm:justify-between">
@@ -74,8 +53,6 @@ const ProjectHeader = ({ projectId }: { projectId: string }) => {
                 onClick={() =>
                   void NiceModal.show("project-modal", {
                     project: currentProject,
-                  }).then((updatedProject) => {
-                    updateProject.mutate(updatedProject);
                   })
                 }
               >
@@ -85,11 +62,7 @@ const ProjectHeader = ({ projectId }: { projectId: string }) => {
             <li>
               <button
                 type="button"
-                onClick={() =>
-                  void NiceModal.show("project-modal").then((newProject) => {
-                    createProject.mutate(newProject);
-                  })
-                }
+                onClick={() => void NiceModal.show("project-modal")}
               >
                 Create project
               </button>
@@ -103,11 +76,7 @@ const ProjectHeader = ({ projectId }: { projectId: string }) => {
       <div className="mt-4 sm:mt-0 sm:ml-4">
         <button
           className="btn-primary btn-block btn"
-          onClick={() =>
-            void NiceModal.show("flag-modal", { projectId }).then((newFlag) => {
-              createFlag.mutate(newFlag);
-            })
-          }
+          onClick={() => void NiceModal.show("flag-modal", { projectId })}
         >
           Create flag
         </button>
