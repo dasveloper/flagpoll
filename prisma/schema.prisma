@@ -85,7 +85,7 @@ model Flag {
     key         String
     description String?  @db.Text
     status      Boolean
-    project     Project  @relation(fields: [projectId], references: [id])
+    project     Project  @relation(fields: [projectId], references: [id], onDelete: Cascade)
     projectId   String
 
     @@index([projectId])

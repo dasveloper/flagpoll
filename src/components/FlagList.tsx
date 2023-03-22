@@ -1,5 +1,6 @@
 import { api } from "~/utils/api";
 import NiceModal from "@ebay/nice-modal-react";
+import { EllipsisVerticalIcon } from "@heroicons/react/20/solid";
 
 const FlagList = ({ projectId }: { projectId: string }) => {
   const { data: flags } = api.flag.getAll.useQuery(
@@ -10,7 +11,7 @@ const FlagList = ({ projectId }: { projectId: string }) => {
   );
 
   return (
-    <div className="w-full overflow-x-auto rounded-lg border border-base-200">
+    <div className="w-full rounded-lg border border-base-200">
       {Boolean(flags?.length) && (
         <table className="table w-full">
           <thead>
@@ -39,17 +40,42 @@ const FlagList = ({ projectId }: { projectId: string }) => {
                   {flag.description}
                 </td>
                 <td className="w-0 whitespace-nowrap text-right">
-                  <button
-                    className="btn-outline btn-sm btn"
-                    onClick={() =>
-                      void NiceModal.show("flag-modal", {
-                        flag,
-                        projectId,
-                      })
-                    }
-                  >
-                    edit
-                  </button>
+                  <div className="dropdown-end dropdown">
+                    <button className="btn-ghost btn-sm btn-square btn">
+                      <EllipsisVerticalIcon className="inline-block h-5 w-5 stroke-current" />
+                    </button>
+                    <ul
+                      tabIndex={0}
+                      className="dropdown-content menu rounded-box menu-compact mt-3 w-52 bg-base-100 p-2 shadow"
+                    >
+                      <li>
+                        <button
+                          type="button"
+                          onClick={() =>
+                            void NiceModal.show("flag-modal", {
+                              flag,
+                              projectId,
+                            })
+                          }
+                        >
+                          Edit flag
+                        </button>
+                      </li>
+                      <li>
+                        <button
+                          type="button"
+                          onClick={() =>
+                            void NiceModal.show("delete-modal", {
+                              itemId: flag.id,
+                              type: "flag",
+                            })
+                          }
+                        >
+                          Delete flag
+                        </button>
+                      </li>
+                    </ul>
+                  </div>
                 </td>
               </tr>
             ))}

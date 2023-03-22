@@ -8,6 +8,7 @@ import "~/styles/globals.css";
 import NiceModal from "@ebay/nice-modal-react";
 import ProjectModal from "~/components/ProjectModal";
 import FlagModal from "~/components/FlagModal";
+import DeleteModal from "~/components/DeleteModal";
 
 const MyApp: AppType<{ session: Session | null }> = ({
   Component,
@@ -15,6 +16,7 @@ const MyApp: AppType<{ session: Session | null }> = ({
 }) => {
   NiceModal.register("project-modal", ProjectModal);
   NiceModal.register("flag-modal", FlagModal);
+  NiceModal.register("delete-modal", DeleteModal);
 
   return (
     <SessionProvider session={session}>

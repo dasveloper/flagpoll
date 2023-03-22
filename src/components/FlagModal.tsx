@@ -38,6 +38,7 @@ const FlagModal = ({
     register,
     handleSubmit,
     formState: { errors },
+    reset,
   } = useForm<FormValues>({
     resolver: zodResolver(
       z.object({
@@ -55,6 +56,11 @@ const FlagModal = ({
     ),
   });
 
+  const hideModal = () => {
+    reset();
+    void modal.hide();
+  };
+
   const onSubmit = (data: FormValues) => {
     if (flag) {
       updateFlag.mutate({
@@ -70,7 +76,7 @@ const FlagModal = ({
       });
     }
 
-    void modal.hide();
+    hideModal();
   };
 
   return (
@@ -78,7 +84,7 @@ const FlagModal = ({
       onClick={(e) => {
         // Only close modal if backdrop clicked not modal body
         if (e.target === e.currentTarget) {
-          void modal.hide();
+          hideModal();
         }
       }}
       className={`modal ${modal.visible ? "modal-open" : ""}`}
@@ -127,7 +133,7 @@ const FlagModal = ({
         <div className="modal-action">
           <button
             type="button"
-            onClick={modal.hide}
+            onClick={hideModal}
             className="btn-outline btn-sm btn"
           >
             Cancel

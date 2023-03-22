@@ -33,6 +33,7 @@ const ProjectModal = ({ project }: { project: Project | undefined }) => {
   const {
     register,
     handleSubmit,
+    reset,
     formState: { errors },
   } = useForm<FormValues>({
     resolver: zodResolver(
@@ -41,6 +42,11 @@ const ProjectModal = ({ project }: { project: Project | undefined }) => {
       })
     ),
   });
+
+  const hideModal = () => {
+    reset();
+    void modal.hide();
+  };
 
   const onSubmit = (data: FormValues) => {
     if (project) {
@@ -54,7 +60,7 @@ const ProjectModal = ({ project }: { project: Project | undefined }) => {
       });
     }
 
-    void modal.hide();
+    hideModal();
   };
 
   return (
@@ -62,7 +68,7 @@ const ProjectModal = ({ project }: { project: Project | undefined }) => {
       onClick={(e) => {
         // Only close modal if backdrop clicked not modal body
         if (e.target === e.currentTarget) {
-          void modal.hide();
+          hideModal();
         }
       }}
       className={`modal ${modal.visible ? "modal-open" : ""}`}
@@ -95,7 +101,7 @@ const ProjectModal = ({ project }: { project: Project | undefined }) => {
         <div className="modal-action">
           <button
             type="button"
-            onClick={modal.hide}
+            onClick={hideModal}
             className="btn-outline btn-sm btn"
           >
             Cancel

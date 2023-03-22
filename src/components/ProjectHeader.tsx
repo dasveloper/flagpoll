@@ -49,7 +49,6 @@ const ProjectHeader = ({ projectId }: { projectId: string }) => {
             <li>
               <button
                 type="button"
-                disabled={currentProject == null}
                 onClick={() =>
                   void NiceModal.show("project-modal", {
                     project: currentProject,
@@ -68,7 +67,17 @@ const ProjectHeader = ({ projectId }: { projectId: string }) => {
               </button>
             </li>
             <li>
-              <a>Delete project</a>
+              <button
+                type="button"
+                onClick={() =>
+                  void NiceModal.show("delete-modal", {
+                    itemId: projectId,
+                    type: "project",
+                  })
+                }
+              >
+                Delete project
+              </button>
             </li>
           </ul>
         </div>
