@@ -1,14 +1,22 @@
-import { api } from "~/utils/api";
+import { api, type RouterOutputs } from "~/utils/api";
 import NiceModal from "@ebay/nice-modal-react";
 import { EllipsisVerticalIcon } from "@heroicons/react/20/solid";
 
+type Flag = RouterOutputs["flag"]["getAll"][0];
+
 const FlagList = ({ projectId }: { projectId: string }) => {
-  const { data: flags } = api.flag.getAll.useQuery(
+  const { data: flags, refetch } = api.flag.getAll.useQuery(
     { projectId },
     {
       enabled: Boolean(projectId),
     }
   );
+
+  const updateFlag = api.flag.update.useMutation({
+    onSuccess() {
+      void refetch();
+    },
+  });
 
   return (
     <div className="w-full rounded-lg border border-base-200">
@@ -25,7 +33,7 @@ const FlagList = ({ projectId }: { projectId: string }) => {
             </tr>
           </thead>
           <tbody>
-            {flags?.map((flag) => (
+            {flags?.map((flag: Flag) => (
               <tr key={flag.id}>
                 <td className="w-0 whitespace-nowrap">
                   <label className="sr-only">Toggle status</label>
@@ -33,6 +41,12 @@ const FlagList = ({ projectId }: { projectId: string }) => {
                     type="checkbox"
                     className="toggle-success toggle mt-1.5"
                     checked={flag.status}
+                    onChange={(e) => {
+                      updateFlag.mutate({
+                        ...flag,
+                        status: e.target.checked,
+                      });
+                    }}
                   />
                 </td>
                 <td className="w-0 whitespace-nowrap font-bold">{flag.key}</td>

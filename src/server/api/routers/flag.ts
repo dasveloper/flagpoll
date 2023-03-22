@@ -17,7 +17,7 @@ export const flagRouter = createTRPCRouter({
     .input(
       z.object({
         key: z.string(),
-        description: z.string(),
+        description: z.string().nullable(),
         projectId: z.string(),
       })
     )
@@ -36,7 +36,7 @@ export const flagRouter = createTRPCRouter({
     .input(
       z.object({
         key: z.string(),
-        description: z.string(),
+        description: z.string().nullable(),
         status: z.boolean(),
         id: z.string(),
       })

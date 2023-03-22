@@ -8,7 +8,7 @@ type Flag = RouterOutputs["flag"]["getAll"][0];
 
 type FormValues = {
   key: string;
-  description: string;
+  description: string | null;
 };
 
 const FlagModal = ({
@@ -51,7 +51,8 @@ const FlagModal = ({
           }),
         description: z
           .string()
-          .max(250, { message: "Max description length 50" }),
+          .max(250, { message: "Max description length 50" })
+          .optional(),
       })
     ),
   });
