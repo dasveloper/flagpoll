@@ -7,13 +7,15 @@ import { api } from "~/utils/api";
 import { useRouter } from "next/router";
 import { useEffect } from "react";
 import Loader from "~/components/Loader";
+
 const ProjectPage: NextPage = () => {
   const router = useRouter();
-  const { projectId } = router.query;
+
+  const { projectId } = router.query as { projectId: string };
 
   const { data: project, isLoading: projectLoading } =
-    api.project.getById.useQuery(projectId?.toString() ?? "", {
-      enabled: typeof projectId === "string",
+    api.project.getById.useQuery(projectId, {
+      enabled: Boolean(projectId),
     });
 
   useEffect(() => {
@@ -36,9 +38,9 @@ const ProjectPage: NextPage = () => {
         <div className="mx-auto max-w-6xl px-4">
           <Nav />
           <div className="my-6" />
-          <ProjectHeader />
+          <ProjectHeader projectId={projectId} />
           <div className="my-6" />
-          <FlagList />
+          <FlagList projectId={projectId} />
         </div>
       </main>
     </>

@@ -1,13 +1,18 @@
 import NiceModal, { useModal } from "@ebay/nice-modal-react";
 import { type RouterOutputs } from "~/utils/api";
 
-type Project = RouterOutputs["project"]["getAll"][0];
+type Flag = RouterOutputs["flag"]["getAll"][0];
 
-const ProjectModal = ({ project }: { project: Project }) => {
+const FlagModal = ({ flag, projectId }: { flag: Flag; projectId: string }) => {
   const modal = useModal();
 
   const handleSubmit = () => {
-    modal.resolve({ id: project?.id, name: "Test Project 5" });
+    modal.resolve({
+      id: flag?.id,
+      key: "Test Flag 1",
+      description: "Lorem ipsum",
+      projectId,
+    });
     void modal.hide();
   };
 
@@ -23,7 +28,7 @@ const ProjectModal = ({ project }: { project: Project }) => {
       id="my-modal"
     >
       <div className="modal-box">
-        <h3 className="text-lg font-bold">Create Project</h3>
+        <h3 className="text-lg font-bold">Create Flag</h3>
         <p className="py-4">Lorem ipsum</p>
         <div className="modal-action">
           <button
@@ -42,4 +47,4 @@ const ProjectModal = ({ project }: { project: Project }) => {
   );
 };
 
-export default NiceModal.create(ProjectModal);
+export default NiceModal.create(FlagModal);

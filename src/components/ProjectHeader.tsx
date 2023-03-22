@@ -6,9 +6,10 @@ import { useRouter } from "next/router";
 
 type Project = RouterOutputs["project"]["getAll"][0];
 
-const ProjectHeader = () => {
+const ProjectHeader = ({ projectId }: { projectId: string }) => {
   const router = useRouter();
-  const { projectId } = router.query;
+
+  const context = api.useContext();
 
   const { data: projects, refetch: refetchProjects } =
     api.project.getAll.useQuery();
@@ -30,13 +31,19 @@ const ProjectHeader = () => {
     },
   });
 
+  const createFlag = api.flag.create.useMutation({
+    onSuccess: () => {
+      void context.flag.getAll.invalidate();
+    },
+  });
+
   return (
     <div className="sm:flex sm:items-center sm:justify-between">
       <div className="flex w-full items-center gap-x-2 pr-2 sm:max-w-xs sm:pr-0">
         <select
           className="select-bordered select flex-1 py-0"
           disabled={projects?.length === 0}
-          value={currentProject?.id}
+          value={projectId}
           defaultValue="0"
           onChange={(e) => {
             void router.push(`/dashboard/${e.target.value}`);
@@ -94,7 +101,16 @@ const ProjectHeader = () => {
         </div>
       </div>
       <div className="mt-4 sm:mt-0 sm:ml-4">
-        <button className="btn-primary btn-block btn">Create flag</button>
+        <button
+          className="btn-primary btn-block btn"
+          onClick={() =>
+            void NiceModal.show("flag-modal", { projectId }).then((newFlag) => {
+              createFlag.mutate(newFlag);
+            })
+          }
+        >
+          Create flag
+        </button>
       </div>
     </div>
   );
