@@ -2,13 +2,16 @@ import { type NextPage } from "next";
 import Head from "next/head";
 import { api } from "~/utils/api";
 import { useRouter } from "next/router";
-import { useEffect } from "react";
+import { useEffect, useContext } from "react";
 import Loader from "~/components/Loader";
-import NiceModal from "@ebay/nice-modal-react";
 import Layout from "~/components/Layout";
+import ProjectModal from "~/components/ProjectModal";
+import { ModalContext } from "~/components/ModalContext";
 
 const Dashboard: NextPage = () => {
   const router = useRouter();
+
+  const { setModal } = useContext(ModalContext);
 
   const { data: projects, isLoading: projectsLoading } =
     api.project.getAll.useQuery();
@@ -39,7 +42,7 @@ const Dashboard: NextPage = () => {
             <button
               type="button"
               className="btn-primary btn"
-              onClick={() => void NiceModal.show("project-modal")}
+              onClick={() => setModal(<ProjectModal project={null} />)}
             >
               New Project
             </button>

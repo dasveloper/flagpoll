@@ -1,8 +1,10 @@
-import NiceModal, { useModal } from "@ebay/nice-modal-react";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { z } from "zod";
 import { api, type RouterOutputs } from "~/utils/api";
+import { ModalContext } from "~/components/ModalContext";
+import { useContext } from "react";
+import React from "react";
 
 type Flag = RouterOutputs["flag"]["getAll"][0];
 
@@ -11,13 +13,7 @@ type FormValues = {
   description: string | null;
 };
 
-const FlagModal = ({
-  flag,
-  projectId,
-}: {
-  flag: Flag | undefined;
-  projectId: string;
-}) => {
+const FlagModal = ({ flag, projectId }: { flag?: Flag; projectId: string }) => {
   const context = api.useContext();
 
   const createFlag = api.flag.create.useMutation({
@@ -32,7 +28,7 @@ const FlagModal = ({
     },
   });
 
-  const modal = useModal();
+  const { setModal } = useContext(ModalContext);
 
   const {
     register,
@@ -59,10 +55,11 @@ const FlagModal = ({
 
   const hideModal = () => {
     reset();
-    void modal.hide();
+    setModal(null);
   };
 
   const onSubmit = (data: FormValues) => {
+    console.log(data);
     if (flag) {
       updateFlag.mutate({
         ...flag,
@@ -88,7 +85,7 @@ const FlagModal = ({
           hideModal();
         }
       }}
-      className={`modal ${modal.visible ? "modal-open" : ""}`}
+      className="modal modal-open"
       id="my-modal"
     >
       <form onSubmit={handleSubmit(onSubmit)} className="modal-box">
@@ -101,7 +98,7 @@ const FlagModal = ({
             <input
               {...register("key")}
               aria-invalid={errors.key ? "true" : "false"}
-              defaultValue={flag?.key ?? ""}
+              defaultValue={flag?.key || ""}
               className="input-bordered input input-sm"
             />
             {errors.key && (
@@ -119,7 +116,7 @@ const FlagModal = ({
             <input
               {...register("description")}
               aria-invalid={errors.description ? "true" : "false"}
-              defaultValue={flag?.description ?? ""}
+              defaultValue={flag?.description || ""}
               className="input-bordered input input-sm"
             />
             {errors.description && (
@@ -148,4 +145,4 @@ const FlagModal = ({
   );
 };
 
-export default NiceModal.create(FlagModal);
+export default FlagModal;

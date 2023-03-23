@@ -1,6 +1,7 @@
-import NiceModal, { useModal } from "@ebay/nice-modal-react";
 import { api } from "~/utils/api";
 import { useRouter } from "next/router";
+import { ModalContext } from "~/components/ModalContext";
+import { useContext } from "react";
 
 const DeleteModal = ({
   itemId,
@@ -11,6 +12,7 @@ const DeleteModal = ({
 }) => {
   const router = useRouter();
   const context = api.useContext();
+  const { setModal } = useContext(ModalContext);
 
   const deleteProject = api.project.delete.useMutation({
     onSuccess: () => {
@@ -25,7 +27,9 @@ const DeleteModal = ({
     },
   });
 
-  const modal = useModal();
+  const hideModal = () => {
+    setModal(null);
+  };
 
   const handleDelete = () => {
     if (type === "project") {
@@ -38,7 +42,7 @@ const DeleteModal = ({
       });
     }
 
-    void modal.hide();
+    hideModal();
   };
 
   return (
@@ -46,10 +50,10 @@ const DeleteModal = ({
       onClick={(e) => {
         // Only close modal if backdrop clicked not modal body
         if (e.target === e.currentTarget) {
-          void modal.hide();
+          hideModal();
         }
       }}
-      className={`modal ${modal.visible ? "modal-open" : ""}`}
+      className="modal modal-open"
       id="my-modal"
     >
       <div className="modal-box">
@@ -60,7 +64,7 @@ const DeleteModal = ({
         <div className="modal-action">
           <button
             type="button"
-            onClick={modal.hide}
+            onClick={hideModal}
             className="btn-outline btn-sm btn"
           >
             Cancel
@@ -74,4 +78,4 @@ const DeleteModal = ({
   );
 };
 
-export default NiceModal.create(DeleteModal);
+export default DeleteModal;

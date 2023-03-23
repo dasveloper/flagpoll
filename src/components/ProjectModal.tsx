@@ -1,9 +1,10 @@
-import NiceModal, { useModal } from "@ebay/nice-modal-react";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { z } from "zod";
 import { api, type RouterOutputs } from "~/utils/api";
 import { useRouter } from "next/router";
+import { ModalContext } from "~/components/ModalContext";
+import { useContext } from "react";
 
 type Project = RouterOutputs["project"]["getAll"][0];
 
@@ -11,7 +12,7 @@ type FormValues = {
   name: string;
 };
 
-const ProjectModal = ({ project }: { project: Project | undefined }) => {
+const ProjectModal = ({ project }: { project: Project | null }) => {
   const router = useRouter();
   const context = api.useContext();
 
@@ -28,7 +29,7 @@ const ProjectModal = ({ project }: { project: Project | undefined }) => {
     },
   });
 
-  const modal = useModal();
+  const { setModal } = useContext(ModalContext);
 
   const {
     register,
@@ -45,7 +46,7 @@ const ProjectModal = ({ project }: { project: Project | undefined }) => {
 
   const hideModal = () => {
     reset();
-    void modal.hide();
+    void setModal(null);
   };
 
   const onSubmit = (data: FormValues) => {
@@ -71,7 +72,7 @@ const ProjectModal = ({ project }: { project: Project | undefined }) => {
           hideModal();
         }
       }}
-      className={`modal ${modal.visible ? "modal-open" : ""}`}
+      className="modal modal-open"
       id="my-modal"
     >
       <form onSubmit={handleSubmit(onSubmit)} className="modal-box">
@@ -115,4 +116,4 @@ const ProjectModal = ({ project }: { project: Project | undefined }) => {
   );
 };
 
-export default NiceModal.create(ProjectModal);
+export default ProjectModal;

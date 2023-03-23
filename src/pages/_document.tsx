@@ -5,6 +5,7 @@ export default function Document() {
     <Html data-theme="light">
       <Head />
       <body>
+        <div id="modal-root" className="relative z-[9999]"></div>
         <Main />
         <NextScript />
       </body>

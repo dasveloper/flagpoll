@@ -11,7 +11,7 @@ const Nav = () => {
         <Link href="/" className="cursor-pointer">
           <Image
             className="h-6 w-auto"
-            width="301"
+            width="307"
             height="39"
             alt="Flagpoll logo"
             src="/logo.png"

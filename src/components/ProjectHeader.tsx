@@ -1,13 +1,18 @@
 import { EllipsisVerticalIcon } from "@heroicons/react/20/solid";
 import { api, type RouterOutputs } from "~/utils/api";
 import { useMemo } from "react";
-import NiceModal from "@ebay/nice-modal-react";
 import { useRouter } from "next/router";
+import { ModalContext } from "~/components/ModalContext";
+import { useContext } from "react";
+import ProjectModal from "~/components/ProjectModal";
+import FlagModal from "~/components/FlagModal";
+import DeleteModal from "~/components/DeleteModal";
 
 type Project = RouterOutputs["project"]["getAll"][0];
 
 const ProjectHeader = ({ projectId }: { projectId: string }) => {
   const router = useRouter();
+  const { setModal } = useContext(ModalContext);
 
   const { data: projects } = api.project.getAll.useQuery();
 
@@ -39,7 +44,7 @@ const ProjectHeader = ({ projectId }: { projectId: string }) => {
         </select>
 
         <div className="dropdown-end dropdown">
-          <button className="btn-ghost btn-sm btn-square btn">
+          <button className="btn-ghost btn-square btn-sm btn">
             <EllipsisVerticalIcon className="inline-block h-5 w-5 stroke-current" />
           </button>
           <ul
@@ -50,9 +55,7 @@ const ProjectHeader = ({ projectId }: { projectId: string }) => {
               <button
                 type="button"
                 onClick={() =>
-                  void NiceModal.show("project-modal", {
-                    project: currentProject,
-                  })
+                  setModal(<ProjectModal project={currentProject} />)
                 }
               >
                 Edit project
@@ -61,7 +64,7 @@ const ProjectHeader = ({ projectId }: { projectId: string }) => {
             <li>
               <button
                 type="button"
-                onClick={() => void NiceModal.show("project-modal")}
+                onClick={() => setModal(<ProjectModal project={null} />)}
               >
                 Create project
               </button>
@@ -70,10 +73,7 @@ const ProjectHeader = ({ projectId }: { projectId: string }) => {
               <button
                 type="button"
                 onClick={() =>
-                  void NiceModal.show("delete-modal", {
-                    itemId: projectId,
-                    type: "project",
-                  })
+                  setModal(<DeleteModal itemId={projectId} type="project" />)
                 }
               >
                 Delete project
@@ -85,7 +85,7 @@ const ProjectHeader = ({ projectId }: { projectId: string }) => {
       <div className="mt-4 sm:mt-0 sm:ml-4">
         <button
           className="btn-primary btn-block btn"
-          onClick={() => void NiceModal.show("flag-modal", { projectId })}
+          onClick={() => setModal(<FlagModal projectId={projectId} />)}
         >
           Create flag
         </button>

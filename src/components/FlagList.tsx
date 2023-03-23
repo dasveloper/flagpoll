@@ -1,10 +1,15 @@
 import { api, type RouterOutputs } from "~/utils/api";
-import NiceModal from "@ebay/nice-modal-react";
+import { ModalContext } from "~/components/ModalContext";
+import { useContext } from "react";
 import { EllipsisVerticalIcon } from "@heroicons/react/20/solid";
+import FlagModal from "~/components/FlagModal";
+import DeleteModal from "~/components/DeleteModal";
 
 type Flag = RouterOutputs["flag"]["getAll"][0];
 
 const FlagList = ({ projectId }: { projectId: string }) => {
+  const { setModal } = useContext(ModalContext);
+
   const { data: flags, refetch } = api.flag.getAll.useQuery(
     { projectId },
     {
@@ -61,7 +66,7 @@ const FlagList = ({ projectId }: { projectId: string }) => {
                 </td>
                 <td className="w-0 whitespace-nowrap text-right">
                   <div className="dropdown-end dropdown">
-                    <button className="btn-ghost btn-sm btn-square btn">
+                    <button className="btn-ghost btn-square btn-sm btn">
                       <EllipsisVerticalIcon className="inline-block h-5 w-5 stroke-current" />
                     </button>
                     <ul
@@ -72,10 +77,9 @@ const FlagList = ({ projectId }: { projectId: string }) => {
                         <button
                           type="button"
                           onClick={() =>
-                            void NiceModal.show("flag-modal", {
-                              flag,
-                              projectId,
-                            })
+                            setModal(
+                              <FlagModal flag={flag} projectId={projectId} />
+                            )
                           }
                         >
                           Edit flag
@@ -85,10 +89,9 @@ const FlagList = ({ projectId }: { projectId: string }) => {
                         <button
                           type="button"
                           onClick={() =>
-                            void NiceModal.show("delete-modal", {
-                              itemId: flag.id,
-                              type: "flag",
-                            })
+                            setModal(
+                              <DeleteModal itemId={flag.id} type="flag" />
+                            )
                           }
                         >
                           Delete flag

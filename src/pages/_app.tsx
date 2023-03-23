@@ -5,24 +5,18 @@ import { SessionProvider } from "next-auth/react";
 import { api } from "~/utils/api";
 
 import "~/styles/globals.css";
-import NiceModal from "@ebay/nice-modal-react";
-import ProjectModal from "~/components/ProjectModal";
-import FlagModal from "~/components/FlagModal";
-import DeleteModal from "~/components/DeleteModal";
+
+import { ModalProvider } from "~/components/ModalContext";
 
 const MyApp: AppType<{ session: Session | null }> = ({
   Component,
   pageProps: { session, ...pageProps },
 }) => {
-  NiceModal.register("project-modal", ProjectModal);
-  NiceModal.register("flag-modal", FlagModal);
-  NiceModal.register("delete-modal", DeleteModal);
-
   return (
     <SessionProvider session={session}>
-      <NiceModal.Provider>
+      <ModalProvider>
         <Component {...pageProps} />
-      </NiceModal.Provider>
+      </ModalProvider>
     </SessionProvider>
   );
 };
