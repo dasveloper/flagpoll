@@ -78,7 +78,7 @@ const ProjectModal = ({ project }: { project: Project | undefined }) => {
         <h3 className="text-lg font-bold">
           {project ? "Update" : "Create"} Project
         </h3>
-        <div className="gap-y-8">
+        <div className="mt-2 flex flex-col gap-y-2">
           <div className="form-control">
             <label className="label">
               <span className="label-text">Project name</span>

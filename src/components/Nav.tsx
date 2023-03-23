@@ -1,5 +1,6 @@
 import { signIn, signOut, useSession } from "next-auth/react";
 import Image from "next/image";
+import Link from "next/link";
 
 const Nav = () => {
   const { data: sessionData } = useSession();
@@ -7,7 +8,9 @@ const Nav = () => {
   return (
     <nav className="navbar border-b border-base-200">
       <div className="flex-1">
-        <a className="cursor-pointer text-xl normal-case">FLAGPOLL</a>
+        <Link href="/" className="cursor-pointer text-xl normal-case">
+          FLAGPOLL
+        </Link>
       </div>
       <div className="flex-none">
         {!sessionData?.user && (
@@ -36,10 +39,7 @@ const Nav = () => {
               className="dropdown-content menu rounded-box menu-compact mt-3 w-52 bg-base-100 p-2 shadow"
             >
               <li>
-                <a>Profile</a>
-              </li>
-              <li>
-                <a>Settings</a>
+                <Link href="/dashboard">Dashboard</Link>
               </li>
               <li>
                 <button type="button" onClick={() => void signOut()}>

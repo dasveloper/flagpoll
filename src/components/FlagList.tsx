@@ -20,6 +20,12 @@ const FlagList = ({ projectId }: { projectId: string }) => {
 
   return (
     <div className="w-full rounded-lg border border-base-200">
+      {!Boolean(flags?.length) && (
+        <div className="px-4 py-12 text-center text-sm">
+          <p>No flag found, add a flag to get started</p>
+        </div>
+      )}
+
       {Boolean(flags?.length) && (
         <table className="table w-full">
           <thead>

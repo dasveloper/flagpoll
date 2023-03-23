@@ -93,7 +93,7 @@ const FlagModal = ({
     >
       <form onSubmit={handleSubmit(onSubmit)} className="modal-box">
         <h3 className="text-lg font-bold">{flag ? "Update" : "Create"} Flag</h3>
-        <div className="gap-y-8">
+        <div className="mt-2 flex flex-col gap-y-2">
           <div className="form-control">
             <label className="label">
               <span className="label-text">Flag key</span>
