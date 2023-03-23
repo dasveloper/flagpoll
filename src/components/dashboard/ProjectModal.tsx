@@ -1,10 +1,10 @@
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { z } from "zod";
 import { api, type RouterOutputs } from "~/utils/api";
 import { useRouter } from "next/router";
 import { ModalContext } from "~/components/dashboard/ModalContext";
 import { useContext } from "react";
+import { ProjectSchema } from "~/utils/schemas";
 
 type Project = RouterOutputs["project"]["getAll"][0];
 
@@ -37,11 +37,7 @@ const ProjectModal = ({ project }: { project: Project | null }) => {
     reset,
     formState: { errors },
   } = useForm<FormValues>({
-    resolver: zodResolver(
-      z.object({
-        name: z.string().max(50, { message: "Max key length 50" }),
-      })
-    ),
+    resolver: zodResolver(ProjectSchema),
   });
 
   const hideModal = () => {

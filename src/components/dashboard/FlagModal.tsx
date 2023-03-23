@@ -1,11 +1,10 @@
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { z } from "zod";
+import { FlagSchema } from "~/utils/schemas";
 import { api, type RouterOutputs } from "~/utils/api";
 import { ModalContext } from "~/components/dashboard/ModalContext";
 import { useContext } from "react";
 import React from "react";
-
 type Flag = RouterOutputs["flag"]["getAll"][0];
 
 type FormValues = {
@@ -36,21 +35,7 @@ const FlagModal = ({ flag, projectId }: { flag?: Flag; projectId: string }) => {
     formState: { errors },
     reset,
   } = useForm<FormValues>({
-    resolver: zodResolver(
-      z.object({
-        key: z
-          .string()
-          .max(50, { message: "Max key length 50" })
-          .regex(new RegExp(/^[A-Za-z0-9\-._]*$/), {
-            message:
-              "Key must only include letters, numbers, dashes, underscores, and periods.",
-          }),
-        description: z
-          .string()
-          .max(250, { message: "Max description length 50" })
-          .optional(),
-      })
-    ),
+    resolver: zodResolver(FlagSchema),
   });
 
   const hideModal = () => {

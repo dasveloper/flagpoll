@@ -1,7 +1,11 @@
-import { z } from "zod";
-
 import { createTRPCRouter, protectedProcedure } from "~/server/api/trpc";
 import { TRPCError } from "@trpc/server";
+import {
+  GetProjectSchema,
+  UpdateProjectSchema,
+  DeleteProjectSchema,
+  ProjectSchema,
+} from "~/utils/schemas";
 
 export const projectRouter = createTRPCRouter({
   getAll: protectedProcedure.query(({ ctx }) => {
@@ -12,28 +16,28 @@ export const projectRouter = createTRPCRouter({
     });
   }),
 
-  getById: protectedProcedure.input(z.string()).query(({ ctx, input }) => {
-    return ctx.prisma.project.findFirst({
-      where: {
-        id: input,
-        userId: ctx.session.user.id,
-      },
-    });
-  }),
-
-  create: protectedProcedure
-    .input(z.object({ name: z.string() }))
-    .mutation(({ ctx, input }) => {
-      return ctx.prisma.project.create({
-        data: {
-          name: input.name,
+  getById: protectedProcedure
+    .input(GetProjectSchema)
+    .query(({ ctx, input }) => {
+      return ctx.prisma.project.findFirst({
+        where: {
+          id: input.id,
           userId: ctx.session.user.id,
         },
       });
     }),
 
+  create: protectedProcedure.input(ProjectSchema).mutation(({ ctx, input }) => {
+    return ctx.prisma.project.create({
+      data: {
+        name: input.name,
+        userId: ctx.session.user.id,
+      },
+    });
+  }),
+
   update: protectedProcedure
-    .input(z.object({ name: z.string(), id: z.string() }))
+    .input(UpdateProjectSchema)
     .mutation(async ({ ctx, input }) => {
       const project = await ctx.prisma.project.findUnique({
         where: {
@@ -64,7 +68,7 @@ export const projectRouter = createTRPCRouter({
     }),
 
   delete: protectedProcedure
-    .input(z.object({ id: z.string() }))
+    .input(DeleteProjectSchema)
     .mutation(async ({ ctx, input }) => {
       const project = await ctx.prisma.project.findUnique({
         where: {

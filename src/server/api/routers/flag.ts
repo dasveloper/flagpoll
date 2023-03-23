@@ -1,11 +1,15 @@
-import { z } from "zod";
-
 import { createTRPCRouter, protectedProcedure } from "~/server/api/trpc";
 import { TRPCError } from "@trpc/server";
+import {
+  CreateFlagSchema,
+  DeleteFlagSchema,
+  UpdateFlagSchema,
+  GetAllFlagsSchema,
+} from "~/utils/schemas";
 
 export const flagRouter = createTRPCRouter({
   getAll: protectedProcedure
-    .input(z.object({ projectId: z.string() }))
+    .input(GetAllFlagsSchema)
     .query(async ({ ctx, input }) => {
       const project = await ctx.prisma.project.findUnique({
         where: {
@@ -32,13 +36,7 @@ export const flagRouter = createTRPCRouter({
     }),
 
   create: protectedProcedure
-    .input(
-      z.object({
-        key: z.string(),
-        description: z.string().nullable(),
-        projectId: z.string(),
-      })
-    )
+    .input(CreateFlagSchema)
     .mutation(async ({ ctx, input }) => {
       const project = await ctx.prisma.project.findUnique({
         where: {
@@ -68,14 +66,7 @@ export const flagRouter = createTRPCRouter({
     }),
 
   update: protectedProcedure
-    .input(
-      z.object({
-        key: z.string(),
-        description: z.string().nullable(),
-        status: z.boolean(),
-        id: z.string(),
-      })
-    )
+    .input(UpdateFlagSchema)
     .mutation(async ({ ctx, input }) => {
       const flag = await ctx.prisma.flag.findUnique({
         where: {
@@ -111,7 +102,7 @@ export const flagRouter = createTRPCRouter({
     }),
 
   delete: protectedProcedure
-    .input(z.object({ id: z.string() }))
+    .input(DeleteFlagSchema)
     .mutation(async ({ ctx, input }) => {
       const flag = await ctx.prisma.flag.findUnique({
         where: {

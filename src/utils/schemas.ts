@@ -1,0 +1,56 @@
+import { z } from "zod";
+
+// Project Schemas
+export const ProjectSchema = z.object({
+  name: z
+    .string()
+    .min(1, { message: "Name is required" })
+    .max(50, { message: "Max name length 50" }),
+});
+
+export const UpdateProjectSchema = ProjectSchema.extend({
+  id: z.string().min(1, { message: "Project ID is required" }),
+});
+
+export const GetProjectSchema = z.object({
+  id: z.string().min(1, { message: "Project ID  is required" }),
+});
+
+export const DeleteProjectSchema = z.object({
+  id: z.string().min(1, { message: "Project ID is required" }),
+});
+
+// Flag Schemas
+
+export const FlagSchema = z.object({
+  key: z
+    .string()
+    .min(1, { message: "Key is required" })
+    .max(50, { message: "Max key length 50" })
+    .regex(new RegExp(/^[A-Za-z0-9\-._]*$/), {
+      message:
+        "Key must only include letters, numbers, dashes, underscores, and periods.",
+    }),
+  description: z
+    .string()
+    .max(250, { message: "Max description length 50" })
+    .optional()
+    .nullable(),
+});
+
+export const UpdateFlagSchema = FlagSchema.extend({
+  id: z.string().min(1, { message: "Flag ID is required" }),
+  status: z.boolean(),
+});
+
+export const GetAllFlagsSchema = z.object({
+  projectId: z.string().min(1, { message: "Project ID is required" }),
+});
+
+export const CreateFlagSchema = FlagSchema.extend({
+  projectId: z.string().min(1, { message: "Project ID  is required" }),
+});
+
+export const DeleteFlagSchema = z.object({
+  id: z.string().min(1, { message: "Flag ID is required" }),
+});

@@ -14,9 +14,12 @@ const ProjectPage: NextPage = () => {
   const { projectId } = router.query as { projectId: string };
 
   const { data: project, isLoading: projectLoading } =
-    api.project.getById.useQuery(projectId, {
-      enabled: Boolean(projectId),
-    });
+    api.project.getById.useQuery(
+      { id: projectId },
+      {
+        enabled: Boolean(projectId),
+      }
+    );
 
   useEffect(() => {
     // Redirect if project not found
