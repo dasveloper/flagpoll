@@ -15,6 +15,7 @@ const Nav = () => {
             height="39"
             alt="Flagpoll logo"
             src="/logo.png"
+            priority
           />
         </Link>
       </div>
@@ -37,6 +38,7 @@ const Nav = () => {
                   height="420"
                   alt="User profile"
                   src={sessionData.user.image ?? ""}
+                  priority
                 />
               </div>
             </label>

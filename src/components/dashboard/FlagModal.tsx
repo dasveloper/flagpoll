@@ -59,7 +59,6 @@ const FlagModal = ({ flag, projectId }: { flag?: Flag; projectId: string }) => {
   };
 
   const onSubmit = (data: FormValues) => {
-    console.log(data);
     if (flag) {
       updateFlag.mutate({
         ...flag,

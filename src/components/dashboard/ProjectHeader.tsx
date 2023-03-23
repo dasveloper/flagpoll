@@ -28,7 +28,6 @@ const ProjectHeader = ({ projectId }: { projectId: string }) => {
           className="select-bordered select flex-1 py-0"
           disabled={projects?.length === 0}
           value={projectId}
-          defaultValue="0"
           onChange={(e) => {
             void router.push(`/dashboard/${e.target.value}`);
           }}
