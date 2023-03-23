@@ -8,8 +8,14 @@ const Nav = () => {
   return (
     <nav className="navbar border-b border-base-200">
       <div className="flex-1">
-        <Link href="/" className="cursor-pointer text-xl normal-case">
-          FLAGPOLL
+        <Link href="/" className="cursor-pointer">
+          <Image
+            className="h-6 w-auto"
+            width="301"
+            height="39"
+            alt="Flagpoll logo"
+            src="/logo.png"
+          />
         </Link>
       </div>
       <div className="flex-none">

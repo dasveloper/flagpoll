@@ -55,6 +55,10 @@ export const authOptions: NextAuthOptions = {
       clientSecret: env.GITHUB_CLIENT_SECRET,
     }),
   ],
+  theme: {
+    colorScheme: "light",
+    logo: "/logo.png", // Absolute URL to image
+  },
 };
 
 /**
