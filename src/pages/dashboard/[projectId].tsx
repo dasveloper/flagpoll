@@ -7,6 +7,7 @@ import { useRouter } from "next/router";
 import { useEffect } from "react";
 import Loader from "~/components/dashboard/Loader";
 import Layout from "~/components/common/Layout";
+import ApiKey from "~/components/dashboard/ApiKey";
 
 const ProjectPage: NextPage = () => {
   const router = useRouter();
@@ -40,6 +41,8 @@ const ProjectPage: NextPage = () => {
       <Layout>
         <div className="my-6" />
         <ProjectHeader projectId={projectId} />
+        <div className="my-6" />
+        <ApiKey apiKey={project.apiKey} />
         <div className="my-6" />
         <FlagList projectId={projectId} />
       </Layout>

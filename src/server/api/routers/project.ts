@@ -1,11 +1,17 @@
-import { createTRPCRouter, protectedProcedure } from "~/server/api/trpc";
+import {
+  createTRPCRouter,
+  protectedProcedure,
+  publicProcedure,
+} from "~/server/api/trpc";
 import { TRPCError } from "@trpc/server";
 import {
-  GetProjectSchema,
+  GetProjectByIdSchema,
+  GetProjectByApiKeySchema,
   UpdateProjectSchema,
   DeleteProjectSchema,
   ProjectSchema,
 } from "~/utils/schemas";
+import formatFlagResponse from "~/utils/formatFlagResponse";
 
 export const projectRouter = createTRPCRouter({
   getAll: protectedProcedure.query(({ ctx }) => {
@@ -17,7 +23,7 @@ export const projectRouter = createTRPCRouter({
   }),
 
   getById: protectedProcedure
-    .input(GetProjectSchema)
+    .input(GetProjectByIdSchema)
     .query(({ ctx, input }) => {
       return ctx.prisma.project.findFirst({
         where: {
@@ -25,6 +31,27 @@ export const projectRouter = createTRPCRouter({
           userId: ctx.session.user.id,
         },
       });
+    }),
+
+  getByApiKey: publicProcedure
+    .input(GetProjectByApiKeySchema)
+    .query(async ({ ctx, input }) => {
+      const project = await ctx.prisma.project.findFirst({
+        where: {
+          apiKey: input.apiKey,
+        },
+        include: {
+          flags: true,
+        },
+      });
+
+      if (project == null) {
+        return {};
+      }
+
+      const formattedFlags = formatFlagResponse(project.flags);
+
+      return formattedFlags;
     }),
 
   create: protectedProcedure.input(ProjectSchema).mutation(({ ctx, input }) => {

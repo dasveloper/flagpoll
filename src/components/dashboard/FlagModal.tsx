@@ -1,11 +1,11 @@
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { FlagSchema } from "~/utils/schemas";
-import { api, type RouterOutputs } from "~/utils/api";
+import { api } from "~/utils/api";
 import { ModalContext } from "~/components/dashboard/ModalContext";
 import { useContext } from "react";
 import React from "react";
-type Flag = RouterOutputs["flag"]["getAll"][0];
+import { type Flag } from "@prisma/client";
 
 type FormValues = {
   key: string;

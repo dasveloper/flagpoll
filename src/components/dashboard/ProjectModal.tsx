@@ -1,12 +1,12 @@
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { api, type RouterOutputs } from "~/utils/api";
+import { api } from "~/utils/api";
 import { useRouter } from "next/router";
 import { ModalContext } from "~/components/dashboard/ModalContext";
 import { useContext } from "react";
 import { ProjectSchema } from "~/utils/schemas";
 
-type Project = RouterOutputs["project"]["getAll"][0];
+import { type Project } from "@prisma/client";
 
 type FormValues = {
   name: string;

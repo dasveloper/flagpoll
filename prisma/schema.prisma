@@ -68,6 +68,7 @@ model VerificationToken {
 
 model Project {
     id        String   @id @default(cuid())
+    apiKey    String   @unique @default(cuid())
     createdAt DateTime @default(now())
     updatedAt DateTime @updatedAt
     name      String
@@ -76,6 +77,7 @@ model Project {
     flags     Flag[]
 
     @@index([userId])
+    @@index([apiKey])
 }
 
 model Flag {

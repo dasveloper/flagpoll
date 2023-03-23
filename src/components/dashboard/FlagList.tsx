@@ -1,11 +1,10 @@
-import { api, type RouterOutputs } from "~/utils/api";
+import { api } from "~/utils/api";
 import { ModalContext } from "~/components/dashboard/ModalContext";
 import { useContext } from "react";
 import { EllipsisVerticalIcon } from "@heroicons/react/20/solid";
 import FlagModal from "~/components/dashboard/FlagModal";
 import DeleteModal from "~/components/dashboard/DeleteModal";
-
-type Flag = RouterOutputs["flag"]["getAll"][0];
+import { type Flag } from "@prisma/client";
 
 const FlagList = ({ projectId }: { projectId: string }) => {
   const { setModal } = useContext(ModalContext);
@@ -66,7 +65,7 @@ const FlagList = ({ projectId }: { projectId: string }) => {
                 </td>
                 <td className="w-0 whitespace-nowrap text-right">
                   <div className="dropdown-end dropdown">
-                    <button className="btn-ghost btn-square btn-sm btn">
+                    <button className="btn-ghost btn-sm btn-square btn">
                       <EllipsisVerticalIcon className="inline-block h-5 w-5 stroke-current" />
                     </button>
                     <ul

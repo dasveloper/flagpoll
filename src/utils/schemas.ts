@@ -12,8 +12,12 @@ export const UpdateProjectSchema = ProjectSchema.extend({
   id: z.string().min(1, { message: "Project ID is required" }),
 });
 
-export const GetProjectSchema = z.object({
+export const GetProjectByIdSchema = z.object({
   id: z.string().min(1, { message: "Project ID  is required" }),
+});
+
+export const GetProjectByApiKeySchema = z.object({
+  apiKey: z.string().min(1, { message: "API key is required" }),
 });
 
 export const DeleteProjectSchema = z.object({

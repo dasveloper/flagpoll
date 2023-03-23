@@ -1,5 +1,5 @@
 import { EllipsisVerticalIcon } from "@heroicons/react/20/solid";
-import { api, type RouterOutputs } from "~/utils/api";
+import { api } from "~/utils/api";
 import { useMemo } from "react";
 import { useRouter } from "next/router";
 import { ModalContext } from "~/components/dashboard/ModalContext";
@@ -8,7 +8,7 @@ import ProjectModal from "~/components/dashboard/ProjectModal";
 import FlagModal from "~/components/dashboard/FlagModal";
 import DeleteModal from "~/components/dashboard/DeleteModal";
 
-type Project = RouterOutputs["project"]["getAll"][0];
+import { type Project } from "@prisma/client";
 
 const ProjectHeader = ({ projectId }: { projectId: string }) => {
   const router = useRouter();
@@ -43,7 +43,7 @@ const ProjectHeader = ({ projectId }: { projectId: string }) => {
         </select>
 
         <div className="dropdown-end dropdown">
-          <button className="btn-ghost btn-square btn-sm btn">
+          <button className="btn-ghost btn-sm btn-square btn">
             <EllipsisVerticalIcon className="inline-block h-5 w-5 stroke-current" />
           </button>
           <ul
