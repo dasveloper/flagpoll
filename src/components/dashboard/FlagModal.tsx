@@ -2,7 +2,7 @@ import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { z } from "zod";
 import { api, type RouterOutputs } from "~/utils/api";
-import { ModalContext } from "~/components/ModalContext";
+import { ModalContext } from "~/components/dashboard/ModalContext";
 import { useContext } from "react";
 import React from "react";
 

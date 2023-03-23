@@ -3,10 +3,10 @@ import Head from "next/head";
 import { api } from "~/utils/api";
 import { useRouter } from "next/router";
 import { useEffect, useContext } from "react";
-import Loader from "~/components/Loader";
-import Layout from "~/components/Layout";
-import ProjectModal from "~/components/ProjectModal";
-import { ModalContext } from "~/components/ModalContext";
+import Loader from "~/components/dashboard/Loader";
+import Layout from "~/components/common/Layout";
+import ProjectModal from "~/components/dashboard/ProjectModal";
+import { ModalContext } from "~/components/dashboard/ModalContext";
 
 const Dashboard: NextPage = () => {
   const router = useRouter();

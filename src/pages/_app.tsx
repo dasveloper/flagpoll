@@ -6,7 +6,7 @@ import { api } from "~/utils/api";
 
 import "~/styles/globals.css";
 
-import { ModalProvider } from "~/components/ModalContext";
+import { ModalProvider } from "~/components/dashboard/ModalContext";
 
 const MyApp: AppType<{ session: Session | null }> = ({
   Component,

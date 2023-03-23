@@ -1,9 +1,9 @@
 import { api, type RouterOutputs } from "~/utils/api";
-import { ModalContext } from "~/components/ModalContext";
+import { ModalContext } from "~/components/dashboard/ModalContext";
 import { useContext } from "react";
 import { EllipsisVerticalIcon } from "@heroicons/react/20/solid";
-import FlagModal from "~/components/FlagModal";
-import DeleteModal from "~/components/DeleteModal";
+import FlagModal from "~/components/dashboard/FlagModal";
+import DeleteModal from "~/components/dashboard/DeleteModal";
 
 type Flag = RouterOutputs["flag"]["getAll"][0];
 

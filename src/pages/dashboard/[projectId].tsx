@@ -1,12 +1,12 @@
 import { type NextPage } from "next";
 import Head from "next/head";
-import FlagList from "~/components/FlagList";
-import ProjectHeader from "~/components/ProjectHeader";
+import FlagList from "~/components/dashboard/FlagList";
+import ProjectHeader from "~/components/dashboard/ProjectHeader";
 import { api } from "~/utils/api";
 import { useRouter } from "next/router";
 import { useEffect } from "react";
-import Loader from "~/components/Loader";
-import Layout from "~/components/Layout";
+import Loader from "~/components/dashboard/Loader";
+import Layout from "~/components/common/Layout";
 
 const ProjectPage: NextPage = () => {
   const router = useRouter();

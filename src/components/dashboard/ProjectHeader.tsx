@@ -2,11 +2,11 @@ import { EllipsisVerticalIcon } from "@heroicons/react/20/solid";
 import { api, type RouterOutputs } from "~/utils/api";
 import { useMemo } from "react";
 import { useRouter } from "next/router";
-import { ModalContext } from "~/components/ModalContext";
+import { ModalContext } from "~/components/dashboard/ModalContext";
 import { useContext } from "react";
-import ProjectModal from "~/components/ProjectModal";
-import FlagModal from "~/components/FlagModal";
-import DeleteModal from "~/components/DeleteModal";
+import ProjectModal from "~/components/dashboard/ProjectModal";
+import FlagModal from "~/components/dashboard/FlagModal";
+import DeleteModal from "~/components/dashboard/DeleteModal";
 
 type Project = RouterOutputs["project"]["getAll"][0];
 

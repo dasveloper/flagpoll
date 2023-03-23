@@ -3,7 +3,7 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { z } from "zod";
 import { api, type RouterOutputs } from "~/utils/api";
 import { useRouter } from "next/router";
-import { ModalContext } from "~/components/ModalContext";
+import { ModalContext } from "~/components/dashboard/ModalContext";
 import { useContext } from "react";
 
 type Project = RouterOutputs["project"]["getAll"][0];
