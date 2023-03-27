@@ -60,6 +60,7 @@ export const flagRouter = createTRPCRouter({
           key: input.key,
           description: input.description,
           projectId: input.projectId,
+          percentage: input.percentage,
           status: false,
         },
       });
@@ -93,6 +94,7 @@ export const flagRouter = createTRPCRouter({
         data: {
           key: input.key,
           description: input.description,
+          percentage: input.percentage,
           status: input.status,
         },
         where: {

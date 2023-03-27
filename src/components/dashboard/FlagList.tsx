@@ -22,6 +22,12 @@ const FlagList = ({ projectId }: { projectId: string }) => {
     },
   });
 
+  const getFlagToggleColor = (percentage: number) => {
+    if (percentage === 100) return "toggle-success";
+    if (percentage === 0) return "toggle-error";
+    return "toggle-warning";
+  };
+
   return (
     <div className="w-full rounded-lg border border-base-200">
       {!Boolean(flags?.length) && (
@@ -49,7 +55,9 @@ const FlagList = ({ projectId }: { projectId: string }) => {
                   <label className="sr-only">Toggle status</label>
                   <input
                     type="checkbox"
-                    className="toggle-success toggle mt-1.5"
+                    className={`${getFlagToggleColor(
+                      flag.percentage
+                    )} toggle mt-1.5`}
                     checked={flag.status}
                     onChange={(e) => {
                       updateFlag.mutate({
@@ -65,7 +73,7 @@ const FlagList = ({ projectId }: { projectId: string }) => {
                 </td>
                 <td className="w-0 whitespace-nowrap text-right">
                   <div className="dropdown-end dropdown">
-                    <button className="btn-ghost btn-sm btn-square btn">
+                    <button className="btn-ghost btn-square btn-sm btn">
                       <EllipsisVerticalIcon className="inline-block h-5 w-5 stroke-current" />
                     </button>
                     <ul

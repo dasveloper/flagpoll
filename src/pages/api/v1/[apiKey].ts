@@ -16,7 +16,10 @@ const projectByApiKeyHandler = async (
 
   try {
     const apiKey = req.query.apiKey as string;
-    const project = await caller.project.getByApiKey({ apiKey });
+    const userId = req.query.userId as string;
+
+    const project = await caller.project.getByApiKey({ apiKey, userId });
+
     res.status(200).json(project);
   } catch (cause) {
     if (cause instanceof TRPCError) {

@@ -18,6 +18,10 @@ export const GetProjectByIdSchema = z.object({
 
 export const GetProjectByApiKeySchema = z.object({
   apiKey: z.string().min(1, { message: "API key is required" }),
+  userId: z
+    .string()
+    .min(1, { message: "Unique User ID is required" })
+    .optional(),
 });
 
 export const DeleteProjectSchema = z.object({
@@ -40,6 +44,10 @@ export const FlagSchema = z.object({
     .max(250, { message: "Max description length 50" })
     .optional()
     .nullable(),
+  percentage: z
+    .number()
+    .min(0, { message: "Min percentage is 0" })
+    .max(100, { message: "Max percentage is 100" }),
 });
 
 export const UpdateFlagSchema = FlagSchema.extend({

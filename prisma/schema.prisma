@@ -86,6 +86,7 @@ model Flag {
     updatedAt   DateTime @updatedAt
     key         String
     description String?  @db.Text
+    percentage  Int
     status      Boolean
     project     Project  @relation(fields: [projectId], references: [id], onDelete: Cascade)
     projectId   String

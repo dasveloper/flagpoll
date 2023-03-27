@@ -6,10 +6,12 @@ import { ModalContext } from "~/components/dashboard/ModalContext";
 import { useContext } from "react";
 import React from "react";
 import { type Flag } from "@prisma/client";
+import { InformationCircleIcon } from "@heroicons/react/24/outline";
 
 type FormValues = {
   key: string;
   description: string | null;
+  percentage: number;
 };
 
 const FlagModal = ({ flag, projectId }: { flag?: Flag; projectId: string }) => {
@@ -49,12 +51,14 @@ const FlagModal = ({ flag, projectId }: { flag?: Flag; projectId: string }) => {
         ...flag,
         key: data.key,
         description: data.description,
+        percentage: data.percentage,
       });
     } else {
       createFlag.mutate({
         projectId,
         key: data.key,
         description: data.description,
+        percentage: data.percentage,
       });
     }
 
@@ -82,7 +86,7 @@ const FlagModal = ({ flag, projectId }: { flag?: Flag; projectId: string }) => {
             <input
               {...register("key")}
               aria-invalid={errors.key ? "true" : "false"}
-              defaultValue={flag?.key || ""}
+              defaultValue={flag?.key ?? ""}
               className="input-bordered input input-sm"
             />
             {errors.key && (
@@ -100,13 +104,46 @@ const FlagModal = ({ flag, projectId }: { flag?: Flag; projectId: string }) => {
             <input
               {...register("description")}
               aria-invalid={errors.description ? "true" : "false"}
-              defaultValue={flag?.description || ""}
+              defaultValue={flag?.description ?? ""}
               className="input-bordered input input-sm"
             />
             {errors.description && (
               <label className="label">
                 <span className="label-text-alt text-red-600">
                   {errors.description.message as string}
+                </span>
+              </label>
+            )}
+          </div>
+          <div className="form-control">
+            <label className="label">
+              <span className="label-text flex items-center gap-x-1">
+                Flag percentage{" "}
+                <div
+                  className="tooltip tooltip-right"
+                  data-tip="The percentage of users this feature is turned on for."
+                >
+                  <InformationCircleIcon className="h-4 w-4" />
+                </div>
+              </span>
+            </label>
+
+            <input
+              {...register("percentage", {
+                valueAsNumber: true,
+              })}
+              aria-invalid={errors.percentage ? "true" : "false"}
+              defaultValue={(flag?.percentage as number) ?? 100}
+              type="range"
+              min={0}
+              max={100}
+              className="range range-success"
+            />
+
+            {errors.percentage && (
+              <label className="label">
+                <span className="label-text-alt text-red-600">
+                  {errors.percentage.message as string}
                 </span>
               </label>
             )}

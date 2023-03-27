@@ -3,7 +3,7 @@ import { useState, useEffect } from "react";
 
 const ApiKey = ({ apiKey }: { apiKey: string }) => {
   const [isCopied, setIsCopied] = useState(false);
-  const url = `${window.location.origin}/api/v1/${apiKey}`;
+  const url = `${window.location.origin}/api/v1/${apiKey}?userId=UNIQUE_IDENTIFIER`;
 
   const handleCopyClick = async () => {
     await navigator.clipboard.writeText(url);

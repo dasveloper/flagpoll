@@ -49,7 +49,7 @@ export const projectRouter = createTRPCRouter({
         return {};
       }
 
-      const formattedFlags = formatFlagResponse(project.flags);
+      const formattedFlags = formatFlagResponse(project.flags, input.userId);
 
       return formattedFlags;
     }),
