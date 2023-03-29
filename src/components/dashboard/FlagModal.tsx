@@ -36,8 +36,14 @@ const FlagModal = ({ flag, projectId }: { flag?: Flag; projectId: string }) => {
     handleSubmit,
     formState: { errors },
     reset,
+    watch,
   } = useForm<FormValues>({
     resolver: zodResolver(FlagSchema),
+    defaultValues: {
+      key: flag?.key ?? "",
+      description: flag?.description ?? "",
+      percentage: flag?.percentage ?? 100,
+    },
   });
 
   const hideModal = () => {
@@ -65,6 +71,7 @@ const FlagModal = ({ flag, projectId }: { flag?: Flag; projectId: string }) => {
     hideModal();
   };
 
+  const percent = watch("percentage");
   return (
     <div
       onClick={(e) => {
@@ -86,7 +93,6 @@ const FlagModal = ({ flag, projectId }: { flag?: Flag; projectId: string }) => {
             <input
               {...register("key")}
               aria-invalid={errors.key ? "true" : "false"}
-              defaultValue={flag?.key ?? ""}
               className="input-bordered input input-sm"
             />
             {errors.key && (
@@ -104,7 +110,6 @@ const FlagModal = ({ flag, projectId }: { flag?: Flag; projectId: string }) => {
             <input
               {...register("description")}
               aria-invalid={errors.description ? "true" : "false"}
-              defaultValue={flag?.description ?? ""}
               className="input-bordered input input-sm"
             />
             {errors.description && (
@@ -127,19 +132,19 @@ const FlagModal = ({ flag, projectId }: { flag?: Flag; projectId: string }) => {
                 </div>
               </span>
             </label>
-
-            <input
-              {...register("percentage", {
-                valueAsNumber: true,
-              })}
-              aria-invalid={errors.percentage ? "true" : "false"}
-              defaultValue={(flag?.percentage as number) ?? 100}
-              type="range"
-              min={0}
-              max={100}
-              className="range range-success"
-            />
-
+            <div className="flex gap-x-4">
+              <input
+                {...register("percentage", {
+                  valueAsNumber: true,
+                })}
+                aria-invalid={errors.percentage ? "true" : "false"}
+                type="range"
+                min={0}
+                max={100}
+                className="range range-success"
+              />
+              <span>{percent}%</span>
+            </div>
             {errors.percentage && (
               <label className="label">
                 <span className="label-text-alt text-red-600">
